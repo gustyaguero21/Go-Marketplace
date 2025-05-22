@@ -12,7 +12,6 @@ import (
 const (
 	ExistsQuery   = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME=?"
 	CreateDBQuery = "CREATE DATABASE IF NOT EXISTS %s"
-	UseDBQuery    = "USE %s"
 )
 
 func DatabaseConn() (*sql.DB, error) {
