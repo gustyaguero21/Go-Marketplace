@@ -2,7 +2,6 @@ package main
 
 import (
 	"go-marketplace/cmd/config"
-	"go-marketplace/internal/infrastructure/database"
 	"go-marketplace/internal/infrastructure/http/server"
 	"log"
 )
@@ -11,11 +10,6 @@ func main() {
 
 	if envErr := config.LoadEnv(); envErr != nil {
 		log.Fatal(envErr)
-	}
-
-	_, err := database.DatabaseConn()
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	server := server.StartServer()
