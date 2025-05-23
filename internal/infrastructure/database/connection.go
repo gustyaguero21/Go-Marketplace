@@ -9,11 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	ExistsQuery   = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME=?"
-	CreateDBQuery = "CREATE DATABASE IF NOT EXISTS %s"
-)
-
 func DatabaseConn() (*sql.DB, error) {
 
 	rootDB, err := sql.Open("mysql", config.GetDsnRoot())
@@ -51,7 +46,7 @@ func DatabaseConn() (*sql.DB, error) {
 
 func existsCheck(db *sql.DB, dbName string) error {
 	var exists string
-	row := db.QueryRow(ExistsQuery, dbName).Scan(&exists)
+	row := db.QueryRow(config.ExistsQuery, dbName).Scan(&exists)
 	if row == sql.ErrNoRows {
 		return sql.ErrNoRows
 	}
@@ -60,7 +55,7 @@ func existsCheck(db *sql.DB, dbName string) error {
 }
 
 func createDB(db *sql.DB, dbName string) error {
-	query := fmt.Sprintf(CreateDBQuery, dbName)
+	query := fmt.Sprintf(config.CreateDBQuery, dbName)
 
 	_, err := db.Exec(query)
 	if err != nil {
